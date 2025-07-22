@@ -1,0 +1,103 @@
+# 🛒 Sistema de Gestión de Inventario (FastAPI & React)
+
+Este proyecto es una API RESTful para la gestión de inventario, desarrollada con FastAPI en el backend y React en el frontend. Permite la administración de productos y categorías, incluye autenticación de usuarios (JWT), y soporta filtros de búsqueda. La persistencia de datos se maneja con PostgreSQL, y toda la aplicación está dockerizada para facilitar su despliegue.
+
+## ✨ Características Principales
+
+- [cite_start]**Gestión de Usuarios**: CRUD completo para usuarios (registro, obtención por ID, actualización, eliminación). [cite: 20-24]
+- [cite_start]**Gestión de Categorías**: CRUD completo para categorías (creación, obtención, actualización, eliminación). [cite: 25-30]
+- [cite_start]**Gestión de Productos**: CRUD completo para productos (creación, obtención, actualización, eliminación). [cite: 31-37]
+- [cite_start]**Autenticación Segura**: Registro de usuarios e inicio de sesión con JSON Web Tokens (JWT). [cite: 38-41]
+- [cite_start]**Filtrado Avanzado**: Filtrar productos por categoría y por rango de precios. [cite: 42-44]
+- [cite_start]**Persistencia de Datos**: Utiliza PostgreSQL como base de datos. [cite: 49-50]
+- [cite_start]**Contenedorización**: Despliegue sencillo con Docker y Docker Compose. [cite: 51-53]
+
+## 🛠️ Tecnologías Utilizadas
+
+### Backend (FastAPI)
+
+- [cite_start]**Python 3.x** [cite: 8]
+- [cite_start]**FastAPI**: Framework web de alto rendimiento. [cite: 9]
+- [cite_start]**SQLAlchemy**: ORM para interactuar con la base de datos. [cite: 10]
+- [cite_start]**PostgreSQL**: Base de datos relacional. [cite: 11]
+- [cite_start]**JWT (PyJWT)**: Para la autenticación de usuarios. [cite: 12]
+- **Alembic**: Para migraciones de base de datos.
+
+### Frontend (React)
+
+- **React**: Librería para construir interfaces de usuario.
+- **Vite**: Herramienta de construcción rápida.
+- **Axios**: Cliente HTTP para las peticiones a la API.
+- **Nginx**: Servidor web para servir el frontend y actuar como proxy inverso para el backend.
+- **Tailwind**: libreria de CSS para decorar interfaces de usuario
+- **Motion**: Libreia de animaciones
+
+### Herramientas de Despliegue y Control de Versiones
+
+- [cite_start]**Docker**: Para la contenerización de la aplicación. [cite: 13]
+- [cite_start]**Docker Compose**: Para definir y ejecutar aplicaciones Docker multi-contenedor. [cite: 53]
+- [cite_start]**Git & GitHub**: Control de versiones y alojamiento del código. [cite: 14]
+
+## 📁 Estructura del Proyecto
+
+El proyecto está organizado en dos directorios principales:
+
+.
+├── backend/ # Contiene la aplicación FastAPI
+│ ├── config/ # Configuración de la base de datos
+│ ├── functions/ # Funciones auxiliares
+│ ├── models/ # Definición de modelos SQLAlchemy
+│ ├── routes/ # Endpoints de la API (users, category, products, etc.)
+│ ├── schemas/ # Modelos Pydantic para validación de datos
+│ ├── alembic/ # Configuracion de Alembic para migraciones
+│ ├── app.py # Aplicación principal de FastAPI
+│ ├── Dockerfile # Dockerfile para el backend
+│ └── requirements.txt # Dependencias de Python
+├── frontend/ # Contiene la aplicación React
+│ ├── public/ # Archivos estáticos
+│ ├── src/ # Código fuente de React
+│ ├── dist/ # Build de la aplicación React
+│ ├── nginx.conf # Configuración de Nginx para el frontend y proxy
+│ ├── Dockerfile # Dockerfile para el frontend (Nginx + React)
+│ ├── package.json # Dependencias de Node.js
+│ └── vite.config.ts # Configuración de Vite
+└── docker-compose.yml # Orquestación de servicios Docker
+
+## 🚀 Configuración y Ejecución Local
+
+Asegúrate de tener **Docker** y **Docker Compose** instalados en tu sistema.
+
+1.  **Clonar el Repositorio:**
+
+    ```bash
+    git clone [https://github.com/tu-usuario/nombre-del-repositorio.git](https://github.com/tu-usuario/nombre-del-repositorio.git)
+    cd nombre-del-repositorio
+    ```
+
+2.  **Configurar Variables de Entorno (Opcional, pero recomendado):**
+    Puedes crear un archivo `.env` en el directorio `backend` para la configuración de la base de datos si no usas los valores por defecto en tu `docker-compose.yml`.
+
+3.  **Ejecutar la Aplicación con Docker Compose:**
+    Desde la raíz del proyecto (donde se encuentra `docker-compose.yml`), ejecuta:
+
+    ```bash
+    docker compose up --build -d
+    ```
+
+    - `--build`: Reconstruye las imágenes de Docker (necesario después de cambios en el código o `Dockerfile`).
+    - `-d`: Ejecuta los contenedores en segundo plano (detached mode).
+
+    Espera unos momentos a que todos los servicios (PostgreSQL, Backend, Frontend) se inicien completamente.
+
+4.  **Acceder a la Aplicación:**
+    - **Frontend**: Abre tu navegador y navega a `http://localhost:3000`.
+    - **Backend (Documentación OpenAPI)**: Accede a la documentación de tu API en `http://localhost:3000/docs` (redirigirá a la documentación de FastAPI servida por el backend).
+
+### ♻️ Reconstrucción y Reinicio
+
+Si realizas cambios en el código del backend o frontend, o en los `Dockerfile`s, deberás reconstruir y reiniciar los servicios:
+
+```bash
+docker compose down      # Detiene y elimina los contenedores
+docker compose up --build -d # Reconstruye y levanta de nuevo
+```
